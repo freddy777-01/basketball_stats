@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'player.dart';
+import 'Models/player.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'bsk_theme.dart';
 
@@ -81,7 +81,7 @@ class PlayerDetail extends StatelessWidget {
                             style: BskTheme.heading1,
                           ),
                           space,
-                          Text("${player.team}"),
+                          Text("${player.team.fullName}"),
                         ],
                       ),
                       Row(
@@ -91,7 +91,7 @@ class PlayerDetail extends StatelessWidget {
                             style: BskTheme.heading1,
                           ),
                           space,
-                          Text("${player.city}"),
+                          Text("${player.team.city}"),
                         ],
                       ),
                       Row(
@@ -101,7 +101,7 @@ class PlayerDetail extends StatelessWidget {
                             style: BskTheme.heading1,
                           ),
                           space,
-                          Text("${player.city}"),
+                          Text("${player.team.division}"),
                         ],
                       )
                     ],

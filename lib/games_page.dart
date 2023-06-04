@@ -4,33 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'bsk_theme.dart';
 import 'package:dotted_line/dotted_line.dart';
-
-class Game {
-  final int? gameId;
-  final String? gameDate;
-  final int? homeTeamScore;
-  final int? visitorTeamScore;
-  final int? period;
-  final int? season;
-  final String? status;
-  final int? homeTeamId;
-  final int? visitorTeamId;
-  final String? homeTeamAbbreviaton;
-  final String? visitorTeamAbbreviaton;
-
-  const Game(
-      {this.gameDate,
-      this.gameId,
-      this.homeTeamId,
-      this.homeTeamScore,
-      this.period,
-      this.season,
-      this.status,
-      this.visitorTeamScore,
-      this.visitorTeamId,
-      this.homeTeamAbbreviaton,
-      this.visitorTeamAbbreviaton});
-}
+import 'Models/game.dart';
 
 class Games extends StatefulWidget {
   const Games({super.key});
@@ -40,10 +14,10 @@ class Games extends StatefulWidget {
 }
 
 class GamesPage extends State<Games> {
-  List _gamesList = [];
+  List<Game> _gamesList = [];
   Widget? _stats;
   final verticalSpace = const SizedBox(
-    height: 2.0,
+    height: 5.0,
   );
   final horizontalSpace = const SizedBox(
     width: 2.0,
@@ -52,9 +26,9 @@ class GamesPage extends State<Games> {
     DefaultAssetBundle.of(context)
         .loadString('assets/bskdata/games.json')
         .then((value) {
-      final data = jsonDecode(value);
+      final List data = jsonDecode(value)['data'];
       setState(() {
-        _gamesList = data['data'];
+        _gamesList = data.map((game) => Game.gameObj(game)).toList();
       });
     });
   }
@@ -91,16 +65,15 @@ class GamesPage extends State<Games> {
               itemBuilder: (context, index) {
                 return miniGameCard(
                   Game(
-                    gameId: _gamesList[index]['id'],
-                    gameDate: _gamesList[index]['date'],
-                    homeTeamScore: _gamesList[index]['home_team_score'],
-                    visitorTeamScore: _gamesList[index]['visitor_team_score'],
-                    period: _gamesList[index]['period'],
-                    status: _gamesList[index]['status'],
-                    homeTeamAbbreviaton: _gamesList[index]['visitor_team']
-                        ['abbreviation'],
-                    visitorTeamAbbreviaton: _gamesList[index]['home_team']
-                        ['abbreviation'],
+                    gameId: _gamesList[index].gameId,
+                    gameDate: _gamesList[index].gameDate,
+                    homeTeamScore: _gamesList[index].homeTeamScore,
+                    visitorTeamScore: _gamesList[index].visitorTeamScore,
+                    period: _gamesList[index].period,
+                    status: _gamesList[index].status,
+                    homeTeam: _gamesList[index].homeTeam,
+                    visitorTeam: _gamesList[index].visitorTeam,
+                    season: _gamesList[index].season,
                   ),
                 );
               },
@@ -116,7 +89,7 @@ class GamesPage extends State<Games> {
                 minHeight: 200.0,
               ),
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Colors.white60,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30.0),
                   topRight: Radius.circular(30.0),
@@ -134,7 +107,11 @@ class GamesPage extends State<Games> {
                     dashColor: Colors.brown,
                     lineThickness: 1.5,
                   ),
-                  Center(child: _stats),
+                  verticalSpace,
+                  Expanded(
+                      child: Center(
+                    child: _stats,
+                  )),
                 ],
               ),
             ),
@@ -147,6 +124,15 @@ class GamesPage extends State<Games> {
   Widget gameStats(Game game) {
     return Column(
       children: [
+        Text(
+          'Year : ${game.season.toString()}',
+          style: BskTheme.heading1,
+        ),
+        Text(
+          'Status : ${game.status}',
+          style: BskTheme.heading1,
+        ),
+        verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -184,7 +170,7 @@ class GamesPage extends State<Games> {
               blurRadius: 15.0,
             ),
           ],
-          color: Colors.white,
+          color: Colors.white60,
           borderRadius: BorderRadius.all(
             Radius.circular(15.0),
           ),
@@ -196,7 +182,7 @@ class GamesPage extends State<Games> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "${game.homeTeamAbbreviaton}",
+                  "${game.homeTeam!.abbreviation}",
                   style: BskTheme.abbriviationText,
                 ),
                 const Image(
@@ -205,7 +191,7 @@ class GamesPage extends State<Games> {
                   width: 60.0,
                 ),
                 Text(
-                  "${game.visitorTeamAbbreviaton}",
+                  "${game.visitorTeam!.abbreviation}",
                   style: BskTheme.abbriviationText,
                 ),
               ],

@@ -43,20 +43,20 @@ dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/app_icon/ball.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/app_icon/ball.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/app_icon/ball.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/app_icon/ball.png"
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +84,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/bskdata/
+    - assets/team_logos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

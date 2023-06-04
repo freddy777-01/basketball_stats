@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 // import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 // import 'package:http/http.dart' as http;
-import 'player.dart';
+// import 'models.dart';
+import 'Models/player.dart';
 import 'bsk_theme.dart';
 import 'package:go_router/go_router.dart';
 // import 'package:flutter/services.dart';
 import 'player_details.dart';
+import 'Network/fetch_data_from_file.dart';
 
 class Players extends StatefulWidget {
   const Players({super.key});
@@ -16,15 +18,13 @@ class Players extends StatefulWidget {
 }
 
 class PlayerPage extends State<Players> {
-  List allPlayers = [];
-
+  List<Player> _allPlayers = [];
+  late Future<List> futurePlayers;
   void _getAllPlayers() {
-    DefaultAssetBundle.of(context)
-        .loadString('assets/bskdata/players.json')
-        .then((value) {
-      final data = jsonDecode(value);
-      setState(() {
-        allPlayers = data['data'];
+    futurePlayers = FetchDataFile.getallPlayers();
+    setState(() {
+      futurePlayers.then((data) {
+        _allPlayers = data.map((player) => Player.playerObj(player)).toList();
       });
     });
   }
@@ -48,37 +48,45 @@ class PlayerPage extends State<Players> {
         title: const Text("Players"),
       ),
       body: Scrollbar(
-        child: ListView.builder(
-          itemCount: allPlayers.length,
-          itemBuilder: (context, index) {
-            if (allPlayers.isEmpty) {
-              return const Center(child: Text("Data not found"));
-            } else {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return PlayerDetail(
-                      player: Player(
-                        id: allPlayers[index]['id'],
-                        firstName: allPlayers[index]['first_name'],
-                        lastName: allPlayers[index]['last_name'],
-                        position: allPlayers[index]['position'],
-                        city: allPlayers[index]['team']['city'],
-                        conference: allPlayers[index]['team']['conference'],
-                        team: allPlayers[index]['team']['full_name'],
-                      ),
+        child: FutureBuilder(
+          future: futurePlayers,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: _allPlayers.length,
+                itemBuilder: (context, index) {
+                  if (_allPlayers.isEmpty) {
+                    return const Center(child: Text("Data not found"));
+                  } else {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return PlayerDetail(
+                            player: Player(
+                              id: _allPlayers[index].id,
+                              firstName: _allPlayers[index].firstName,
+                              lastName: _allPlayers[index].lastName,
+                              position: _allPlayers[index].position,
+                              team: _allPlayers[index].team,
+                            ),
+                          );
+                        }));
+                      },
+                      child: playerCard(Player(
+                        id: _allPlayers[index].id,
+                        firstName: _allPlayers[index].firstName,
+                        lastName: _allPlayers[index].lastName,
+                        position: _allPlayers[index].position,
+                        team: _allPlayers[index].team,
+                      )),
                     );
-                  }));
+                  }
                 },
-                child: playerCard(Player(
-                  id: allPlayers[index]['id'],
-                  firstName: allPlayers[index]['first_name'],
-                  lastName: allPlayers[index]['last_name'],
-                  position: allPlayers[index]['position'],
-                  city: allPlayers[index]['team']['city'],
-                  conference: allPlayers[index]['team']['conference'],
-                  team: allPlayers[index]['team']['full_name'],
-                )),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
           },
@@ -97,7 +105,7 @@ class PlayerPage extends State<Players> {
       child: ListTile(
         leading: const CircleAvatar(child: Icon(Icons.person)),
         title: Text("${player.firstName} \t ${player.lastName}"),
-        subtitle: Text("Team: ${player.team}"),
+        subtitle: Text("Team: ${player.team.fullName}"),
       ),
     );
   }

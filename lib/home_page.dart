@@ -20,7 +20,7 @@ class MyHomePage extends StatelessWidget {
           Container(
             constraints: const BoxConstraints.expand(
               width: 300,
-              height: 370,
+              height: 390,
             ),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
