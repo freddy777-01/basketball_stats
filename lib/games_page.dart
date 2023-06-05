@@ -80,7 +80,7 @@ class GamesPage extends State<Games> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               padding: const EdgeInsets.all(10.0),
               margin: const EdgeInsets.only(top: 5.0),

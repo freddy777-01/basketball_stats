@@ -8,6 +8,7 @@ import 'players_page.dart';
 import 'intro_page.dart';
 import 'teams_page.dart';
 import 'games_page.dart';
+import 'stats_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,6 +49,10 @@ final router = GoRouter(
         GoRoute(
           path: '/Games',
           builder: (context, state) => const Games(),
+        ),
+        GoRoute(
+          path: '/Stats',
+          builder: (context, state) => const Stats(),
         ),
       ],
     )

@@ -21,12 +21,12 @@ class Teams extends StatefulWidget {
 
 class TeamsPage extends State<Teams> {
   List<Team> _teams = [];
-  late Future<List> futureData;
+  late Future<List> _futureData;
 
   void _getAllTeams() {
-    futureData = FetchDataFile.getAllTeams();
+    _futureData = FetchDataFile.getAllTeams();
     setState(() {
-      futureData.then((data) {
+      _futureData.then((data) {
         _teams = data.map((team) => Team.teamObj(team)).toList();
       });
     });
@@ -51,7 +51,7 @@ class TeamsPage extends State<Teams> {
         title: const Text("Teams"),
       ),
       body: FutureBuilder(
-        future: futureData,
+        future: _futureData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Padding(
@@ -81,8 +81,25 @@ class TeamsPage extends State<Teams> {
                             },
                           ),
                         )
-                      : const Center(
-                          child: Text("No data"),
+                      : Expanded(
+                          child: Center(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: const Size.fromWidth(200.0),
+                              ),
+                              onPressed: () => _getAllTeams(),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.refresh),
+                                  SizedBox(
+                                    width: 7.0,
+                                  ),
+                                  Text("Refresh"),
+                                ],
+                              ),
+                            ),
+                          ),
                         )
                 ],
               ),

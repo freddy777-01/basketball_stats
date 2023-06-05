@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'bsk_theme.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -9,6 +10,19 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return SplashScreen(
+      seconds: 14,
+      navigateAfterSeconds: homePage(context),
+      image: const Image(
+        image: AssetImage('assets/app_icon/ball.png'),
+      ),
+      backgroundColor: Colors.white,
+      title: const Text('Basketball Stats Application'),
+      loaderColor: Colors.blue,
+    );
+  }
+
+  Widget homePage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

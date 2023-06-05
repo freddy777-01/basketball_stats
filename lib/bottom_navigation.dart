@@ -17,6 +17,8 @@ class BottomNav extends StatelessWidget {
       return 1;
     } else if (pageUrl.startsWith('/Games')) {
       return 2;
+    } else if (pageUrl.startsWith('/Stats')) {
+      return 3;
     }
     return 0;
   }
@@ -37,6 +39,9 @@ class BottomNav extends StatelessWidget {
               break;
             case 2:
               context.go('/Games');
+              break;
+            case 3:
+              context.go('/Stats');
               break;
             default:
               context.go('/');

@@ -8,10 +8,10 @@ class FetchDataFile {
   static String gamesFile = "assets/bskdata/games.json";
   static String playersFile = "assets/bskdata/players.json";
   static String teamsFile = "assets/bskdata/teams.json";
-  static String statsFile = "assets/bskdata/stats.json";
+  static String statsFile = "assets/bskdata/status.json";
 
   static Future<List> getallPlayers() async {
-      final String response = await rootBundle.loadString(playersFile);
+    final String response = await rootBundle.loadString(playersFile);
     final List data = await jsonDecode(response)['data'];
     return data;
   }
@@ -42,7 +42,7 @@ class FetchDataFile {
     }
   } */
 
-  static Future getAllGames() async {
+  static Future<List> getAllGames() async {
     final String response = await rootBundle.loadString(gamesFile);
     final List data = await jsonDecode(response)['data'];
     return data;
@@ -58,16 +58,15 @@ class FetchDataFile {
     }
   } */
 
-  static Future<List> getAllStats() async {
+  static Future<List> getAllStatus() async {
     final String response = await rootBundle.loadString(statsFile);
     final List data = await jsonDecode(response)['data'];
     return data;
   }
-
 }
 
 /* void main(List<String> args) {
-  FetchData.getallPlayers();
+  FetchDataFile.getAllStatus();
   // print(FetchData.convertToMap(j));
   // print(FetchData.jsonData);
 } */
