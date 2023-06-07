@@ -2,9 +2,7 @@ import 'package:bsk/Models/status.dart';
 // import 'package:bsk/Models/team.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:convert';
 // import 'package:http/http.dart' as http;
 // import 'player_details.dart';
 import 'bsk_theme.dart';
@@ -91,9 +89,9 @@ class StatsPage extends State<Stats> {
                                 fixedSize: const Size.fromWidth(200.0),
                               ),
                               onPressed: () => _getAllStats(),
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Icon(Icons.refresh),
                                   SizedBox(
                                     width: 7.0,

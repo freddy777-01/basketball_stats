@@ -88,9 +88,9 @@ class TeamsPage extends State<Teams> {
                                 fixedSize: const Size.fromWidth(200.0),
                               ),
                               onPressed: () => _getAllTeams(),
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Icon(Icons.refresh),
                                   SizedBox(
                                     width: 7.0,

@@ -45,8 +45,8 @@ class About extends StatelessWidget {
             const SizedBox(
               height: 20.0,
             ),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Text(
                   'Features:',
                   style: TextStyle(

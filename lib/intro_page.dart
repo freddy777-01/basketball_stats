@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'bsk_theme.dart';
-import 'bottom_navigation.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
